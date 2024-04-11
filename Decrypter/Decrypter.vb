@@ -2,7 +2,7 @@
 Imports System.Text
 
 Public Class Decrypter
-    Public Shared Function DecryptString(ByVal cipherText As String, ByVal password As String) As String
+    Public Function DecryptString(ByVal cipherText As String, ByVal password As String) As String
 
         Dim values = ExtractMessageAndNonce(cipherText)
         Dim messageByte As Byte() = values.Item1
@@ -48,7 +48,7 @@ Public Class Decrypter
         Return Encoding.UTF8.GetString(messageByte)
     End Function
 
-    Private Shared Function ExtractMessageAndNonce(ByVal cipherText As String) As (Byte(), UInteger)
+    Private Function ExtractMessageAndNonce(ByVal cipherText As String) As (Byte(), UInteger)
         Dim values As String() = cipherText.Split("|"c)
 
         Dim message As String = values(0)
@@ -62,7 +62,7 @@ Public Class Decrypter
         Return (messageByte, nonce)
     End Function
 
-    Private Shared Function TransformMessage(ByVal dataBytes As Byte(), ByVal nonce As UInteger, ByVal password As String) As Byte()
+    Private Function TransformMessage(ByVal dataBytes As Byte(), ByVal nonce As UInteger, ByVal password As String) As Byte()
         Dim cryptoTransformer As ICryptoTransform = GetCryptoTransformer(password)
         Dim i As UInteger = 0
         While i < nonce
@@ -72,7 +72,7 @@ Public Class Decrypter
         Return dataBytes
     End Function
 
-    Private Shared Function GetCryptoTransformer(ByVal password As String) As ICryptoTransform
+    Private Function GetCryptoTransformer(ByVal password As String) As ICryptoTransform
         Dim SaltBytes As Byte() = Encoding.UTF8.GetBytes(password)
         Dim key As New Rfc2898DeriveBytes(password, SaltBytes)
         Dim cryptoKey As Byte() = key.GetBytes(16)

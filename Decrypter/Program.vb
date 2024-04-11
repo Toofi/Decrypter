@@ -13,7 +13,8 @@ Module Program
                 Dim passWordForDecrypt = Console.ReadLine
 
                 Try
-                    Dim decryptedMessage As String = Decrypter.DecryptString(messageForDecrypt, passWordForDecrypt)
+                    Dim decrypter As New Decrypter()
+                    Dim decryptedMessage As String = decrypter.DecryptString(messageForDecrypt, passWordForDecrypt)
                     Console.WriteLine(vbCrLf)
                     Console.WriteLine("Congratulations! The block is well decrypted!")
                     Console.WriteLine("Here's the result :")
